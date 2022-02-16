@@ -1,22 +1,19 @@
-const abi = [
+var abi = [
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
 	{
 		"constant": false,
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "id",
+				"name": "quant",
 				"type": "uint256"
 			}
 		],
-		"name": "colocarPokemonAvenda",
-		"outputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
 		"name": "comprarCarta",
 		"outputs": [],
 		"payable": true,
@@ -24,7 +21,7 @@ const abi = [
 		"type": "function"
 	},
 	{
-		"constant": false,
+		"constant": true,
 		"inputs": [],
 		"name": "gerarPokemon",
 		"outputs": [
@@ -35,28 +32,7 @@ const abi = [
 			}
 		],
 		"payable": false,
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [],
-		"name": "retornaPokemonsComprados",
-		"outputs": [
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "constructor"
 	}
 ]

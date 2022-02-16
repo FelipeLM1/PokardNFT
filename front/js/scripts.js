@@ -10,7 +10,7 @@
 
 
 // ENDEREÇO EHTEREUM DO CONTRATO
-var contractAddress = "0xdAC0bE8Cc2a8308315f9cf67DCce7dD27dD92Bf6";
+var contractAddress = "0x865b485F26069249b8F21830DeF7b5172F31d33F";
 
 document.addEventListener('DOMContentLoaded', onDocumentLoad);
 function onDocumentLoad() {
@@ -112,9 +112,11 @@ const DApp = {
 
 // *** MÉTODOS (de escrita) DO CONTRATO ** //
 
-function comprarCarta(quant) {
-  let preco = 100000000000000000 * quant;
-  return DApp.contracts.Pokard.methods.comprarCarta(quant).send({ from: DApp.accounts, value: preco }).then(atualizaInterface);;
+function comprarCarta() {
+    console.log("comprar carta")
+
+  let preco = 100000000000000000 * 1;
+  return DApp.contracts.Pokard.methods.comprarCarta(1).send({ from: DApp.accounts, value: preco }).then(atualizaInterface);
 }
 
 
@@ -128,12 +130,13 @@ function ColocarPokemnonAvenda() {
 // *** ATUALIZAÇÃO DO HTML *** //
 
 function inicializaInterface() {
-    document.getElementById("btnComprar1").onclick = comprarCarta(1);
-    document.getElementById("btnComprar2").onclick = comprarCarta(2);
-    document.getElementById("btnComprar3").onclick = comprarCarta(3);
-    document.getElementById("btnHeader").addEventListener("click", atualizaInterface());
-   // DApp.contracts.Pokard.getPastEvents("RifaComprada", { fromBlock: 0, toBlock: "latest" }).then((result) => registraEventos(result));  
-   // DApp.contracts.Rifa.events.RifaComprada((error, event) => registraEventos([event]));  
+    comprarCarta();
+    atualizaInterface();
+    //document.getElementById("Comprar-1").addEventListener("click", comprarCarta());
+    //document.getElementById("btnComprar2").onclick = comprarCarta;
+   // document.getElementById("btnComprar3").onclick = comprarCarta;
+   // document.getElementById("btnHeader").addEventListener("click", atualizaInterface());
+  
 }
 
 
@@ -172,19 +175,4 @@ function atualizaInterface() {
   });
 }*/
 
-function registraEventos(eventos) {
-  let table = document.getElementById("events");
-  eventos.forEach(evento => {
-    let tr = document.createElement("tr");
-    let td1 = document.createElement("td");
-    td1.innerHTML = "<a href='https://ropsten.etherscan.io/address/"+ evento["returnValues"]["comprador"] +"'>" + evento["returnValues"]["comprador"] + "</a>";
-    let td2 = document.createElement("td");
-    td2.innerHTML = evento["returnValues"]["quant"];
-    let td3 = document.createElement("td");  
-    td3.innerHTML = "<a href='https://ropsten.etherscan.io/tx/"+ evento["transactionHash"] +"'>" + evento["transactionHash"] + "</a>";
-    tr.appendChild(td1);
-    tr.appendChild(td2);
-    tr.appendChild(td3);
-    table.appendChild(tr);
-  });
-}
+
