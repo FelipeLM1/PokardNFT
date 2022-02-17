@@ -20,7 +20,7 @@ function onDocumentLoad() {
 const DApp = {
   web3: null,
   contracts: {},
-  accounts: [],
+  account: null,
 
  
   init: function() {
@@ -36,10 +36,9 @@ const DApp = {
           method: 'eth_requestAccounts',
         });
         // Accounts now exposed, use them
-        DApp.updateAccounts(accounts);
+        DApp.account = accounts[0];
 
         ethereum.autoRefreshOnNetworkChange = false;
-
         // When user changes to another account,
         // trigger necessary updates within DApp
         window.ethereum.on('accountsChanged', DApp.updateAccounts);
@@ -63,13 +62,9 @@ const DApp = {
     return DApp.initContract();
   },
 
-  updateAccounts: async function(accounts) {
-    const firstUpdate = !(DApp.accounts && DApp.accounts[0]);
-    DApp.accounts = accounts || await DApp.web3.eth.getAccounts();
-    console.log('updateAccounts', accounts[0]);
-    if (!firstUpdate) {
-      DApp.render();
-    }
+  updateAccounts: async function() {
+    DApp.account = (await DApp.web3.eth.getAccounts())[0];
+    atualizaInterface();
   },
 
   initContract: async function() {
@@ -112,11 +107,12 @@ const DApp = {
 
 // *** MÉTODOS (de escrita) DO CONTRATO ** //
 
-function comprarCarta() {
-    console.log("comprar carta")
-
-  let preco = 100000000000000000 * 1;
-  return DApp.contracts.Pokard.methods.comprarCarta(1).send({ from: DApp.accounts, value: preco }).then(atualizaInterface);
+function comprarCarta(numCartas) {
+    console.log("comprar carta:" + numCartas)
+  console.log(DApp.account)
+  let preco = 100000000000000000 * numCartas;
+  console.log(preco)
+  return DApp.contracts.Pokard.methods.comprarCarta(numCartas).send({ from: DApp.account, value: preco }).then(atualizaInterface);
 }
 
 
@@ -130,7 +126,6 @@ function ColocarPokemnonAvenda() {
 // *** ATUALIZAÇÃO DO HTML *** //
 
 function inicializaInterface() {
-    comprarCarta();
     atualizaInterface();
     //document.getElementById("Comprar-1").addEventListener("click", comprarCarta());
     //document.getElementById("btnComprar2").onclick = comprarCarta;
