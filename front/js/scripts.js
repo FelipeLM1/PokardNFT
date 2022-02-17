@@ -10,7 +10,7 @@
 
 
 // ENDEREÇO EHTEREUM DO CONTRATO
-var contractAddress = "0x865b485F26069249b8F21830DeF7b5172F31d33F";
+var contractAddress = "0xA203aCB912C6597BfaDAd959bA889bf8C0eA5C94";
 
 document.addEventListener('DOMContentLoaded', onDocumentLoad);
 function onDocumentLoad() {
@@ -104,6 +104,11 @@ const DApp = {
 
 // *** MÉTODOS (de consulta - view) DO CONTRATO ** //
 
+function retornarPokemonsComprados() {
+    return DApp.contracts.Pokard.methods.retornaPokemonsComprados().call({ from: DApp.account });
+  }
+  
+
 
 // *** MÉTODOS (de escrita) DO CONTRATO ** //
 
@@ -126,7 +131,7 @@ function ColocarPokemnonAvenda() {
 // *** ATUALIZAÇÃO DO HTML *** //
 
 function inicializaInterface() {
-    atualizaInterface();
+   
     //document.getElementById("Comprar-1").addEventListener("click", comprarCarta());
     //document.getElementById("btnComprar2").onclick = comprarCarta;
    // document.getElementById("btnComprar3").onclick = comprarCarta;
@@ -136,8 +141,11 @@ function inicializaInterface() {
 
 
 
-function atualizaInterface() {
-    console.log("atualizando")
+function atualizaInterfaceInventario() {
+    console.log("oiiiii")
+    retornarPokemonsComprados().then((result) => {
+        console.log(result)});
+
 };
 
 
