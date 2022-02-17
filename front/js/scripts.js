@@ -10,7 +10,7 @@
 
 
 // ENDEREÇO EHTEREUM DO CONTRATO
-var contractAddress = "0x0A2AFca8E0362350D081f16B87e3EA12634378a7";
+var contractAddress = "0x131661708243b2a249988771dc15A96A10B2c2B2";
 
 document.addEventListener('DOMContentLoaded', onDocumentLoad);
 function onDocumentLoad() {
@@ -112,9 +112,6 @@ function mostrarPokemonsMercado() {
   return DApp.contracts.Pokard.methods.mostrarPokemonsMercado().call({ from: DApp.account });
 }
 
-
-
-
 // *** MÉTODOS (de escrita) DO CONTRATO ** //
 
 function comprarCarta(numCartas) {
@@ -144,7 +141,7 @@ function inicializaInterface() {
 
 }
 
-// =============== API =========================
+// =============== API ================== //
 
 const baseUrl = 'https://pokeapi.co/api/v2/pokemon/';
 var pokemonApi;
@@ -162,9 +159,7 @@ function requestPokeInfo(url, name, pokemon) {
     .catch(err => console.log(err));
 }
 
-
-
-// =============== INVENTARIO =========================
+// =============== INVENTARIO ================
 function atualizaInterfaceInventario() {
 
   retornarPokemonsComprados().then((result) => {
@@ -195,7 +190,7 @@ function gerarInterfaceCard(pokemonApi, pokemon) {
   var card = `
   <div class="col mb-5">
     <div class="card h-100">
-        <img class="card-img-top" src="${pokemonApi.sprites.front_default}" alt="..." />
+        <img class="card-img-top" src="${pokemonApi.sprites.front_default}"/>
         <div class="card-body p-4">
             <div class="text-center">
                 <h5 class="fw-bolder">${pokemonApi.name}</h5>
@@ -220,7 +215,6 @@ function gerarInterfaceCard(pokemonApi, pokemon) {
     </div>
 </div>
 `
-
   return card
 }
 
