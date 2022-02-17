@@ -149,7 +149,7 @@ function inicializaInterface() {
 const baseUrl = 'https://pokeapi.co/api/v2/pokemon/';
 var pokemonApi;
 
-function requestPokeInfo(url, name) {
+function requestPokeInfo(url, name, pokemon) {
   pokemonApi = {};
   console.log(url + name)
   fetch(url + name)
@@ -186,7 +186,7 @@ function atualizaInterfaceInventario() {
 };
 
 function criarCardInventario(pokemon) {
-  requestPokeInfo(baseUrl, pokemon.idPokemon)
+  requestPokeInfo(baseUrl, pokemon.idPokemon, pokemon )
 }
 
 function gerarInterfaceCard(pokemonApi, pokemon) {

@@ -1,4 +1,4 @@
-[
+var abi = [
 	{
 	  "inputs": [],
 	  "payable": false,
