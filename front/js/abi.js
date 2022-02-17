@@ -42,6 +42,26 @@ var abi = [
 	},
 	{
 		"constant": false,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "valor",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "idCarta",
+				"type": "uint256"
+			}
+		],
+		"name": "comprarPokemonMercado",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
 		"inputs": [],
 		"name": "gerarPokemon",
 		"outputs": [],
@@ -52,12 +72,81 @@ var abi = [
 	{
 		"constant": true,
 		"inputs": [],
+		"name": "mostrarPokemonsMercado",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "idCarta",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "idPokemon",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "ataque",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "defesa",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "preco",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct Pokard.Pokemon[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
 		"name": "retornaPokemonsComprados",
 		"outputs": [
 			{
-				"internalType": "uint256[]",
+				"components": [
+					{
+						"internalType": "uint256",
+						"name": "idCarta",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "idPokemon",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "ataque",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "defesa",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "preco",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct Pokard.Pokemon[]",
 				"name": "",
-				"type": "uint256[]"
+				"type": "tuple[]"
 			}
 		],
 		"payable": false,

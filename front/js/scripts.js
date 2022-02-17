@@ -10,7 +10,7 @@
 
 
 // ENDEREÇO EHTEREUM DO CONTRATO
-var contractAddress = "0xA203aCB912C6597BfaDAd959bA889bf8C0eA5C94";
+var contractAddress = "0x131661708243b2a249988771dc15A96A10B2c2B2";
 
 document.addEventListener('DOMContentLoaded', onDocumentLoad);
 function onDocumentLoad() {
@@ -106,7 +106,12 @@ const DApp = {
 
 function retornarPokemonsComprados() {
     return DApp.contracts.Pokard.methods.retornaPokemonsComprados().call({ from: DApp.account });
-  }
+}
+
+function mostrarPokemonsMercado() {
+    return DApp.contracts.Pokard.methods.mostrarPokemonsMercado().call({ from: DApp.account });
+}
+
   
 
 
@@ -124,7 +129,7 @@ function comprarCarta(numCartas) {
 function ColocarPokemnonAvenda() {
   let idPokemon = document.getElementById("idPokemon").value;
   let preco = document.getElementById("preco").value;
-  return DApp.contracts.Pokard.methods.ColocarPokemnonAvenda(idPokemon, preco).send({ from: DApp.accounts}).then(atualizaInterface);;
+  return DApp.contracts.Pokard.methods.ColocarPokemnonAvenda(idPokemon, preco).send({ from: DApp.account}).then(atualizaInterface);;
 }
 
 
@@ -142,12 +147,20 @@ function inicializaInterface() {
 
 
 function atualizaInterfaceInventario() {
-    console.log("oiiiii")
+
     retornarPokemonsComprados().then((result) => {
         console.log(result)});
 
+
 };
 
+function atualizaInterfaceMercado() {
+
+    mostrarPokemonsMercado().then((result) => {
+        console.log(result)});
+
+
+};
 
 
   /*verTotalDeRifas().then((result) => {
