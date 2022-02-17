@@ -10,7 +10,7 @@
 
 
 // ENDEREÇO EHTEREUM DO CONTRATO
-var contractAddress = "0x131661708243b2a249988771dc15A96A10B2c2B2";
+var contractAddress = "0x0A2AFca8E0362350D081f16B87e3EA12634378a7";
 
 document.addEventListener('DOMContentLoaded', onDocumentLoad);
 function onDocumentLoad() {
@@ -22,14 +22,14 @@ const DApp = {
   contracts: {},
   account: null,
 
- 
-  init: function() {
+
+  init: function () {
     return DApp.initWeb3();
   },
 
   initWeb3: async function () {
     if (typeof window.ethereum !== 'undefined') {
-     
+
       try {
         // Request account access if needed
         const accounts = await window.ethereum.request({
@@ -62,12 +62,12 @@ const DApp = {
     return DApp.initContract();
   },
 
-  updateAccounts: async function() {
+  updateAccounts: async function () {
     DApp.account = (await DApp.web3.eth.getAccounts())[0];
     atualizaInterface();
   },
 
-  initContract: async function() {
+  initContract: async function () {
     let networkId = await DApp.web3.eth.net.getId();
     console.log('networkId', networkId);
 
@@ -87,7 +87,7 @@ const DApp = {
     return DApp.render();
   },
 
-  
+
 
   // Associa ao endereço do seu contrato
   initContract: async function () {
@@ -105,20 +105,20 @@ const DApp = {
 // *** MÉTODOS (de consulta - view) DO CONTRATO ** //
 
 function retornarPokemonsComprados() {
-    return DApp.contracts.Pokard.methods.retornaPokemonsComprados().call({ from: DApp.account });
+  return DApp.contracts.Pokard.methods.retornaPokemonsComprados().call({ from: DApp.account });
 }
 
 function mostrarPokemonsMercado() {
-    return DApp.contracts.Pokard.methods.mostrarPokemonsMercado().call({ from: DApp.account });
+  return DApp.contracts.Pokard.methods.mostrarPokemonsMercado().call({ from: DApp.account });
 }
 
-  
+
 
 
 // *** MÉTODOS (de escrita) DO CONTRATO ** //
 
 function comprarCarta(numCartas) {
-    console.log("comprar carta:" + numCartas)
+  console.log("comprar carta:" + numCartas)
   console.log(DApp.account)
   let preco = 100000000000000000 * numCartas;
   console.log(preco)
@@ -129,64 +129,135 @@ function comprarCarta(numCartas) {
 function ColocarPokemnonAvenda() {
   let idPokemon = document.getElementById("idPokemon").value;
   let preco = document.getElementById("preco").value;
-  return DApp.contracts.Pokard.methods.ColocarPokemnonAvenda(idPokemon, preco).send({ from: DApp.account}).then(atualizaInterface);;
+  return DApp.contracts.Pokard.methods.ColocarPokemnonAvenda(idPokemon, preco).send({ from: DApp.account }).then(atualizaInterface);;
 }
 
 
 // *** ATUALIZAÇÃO DO HTML *** //
 
 function inicializaInterface() {
-   
-    //document.getElementById("Comprar-1").addEventListener("click", comprarCarta());
-    //document.getElementById("btnComprar2").onclick = comprarCarta;
-   // document.getElementById("btnComprar3").onclick = comprarCarta;
-   // document.getElementById("btnHeader").addEventListener("click", atualizaInterface());
-  
+
+  //document.getElementById("Comprar-1").addEventListener("click", comprarCarta());
+  //document.getElementById("btnComprar2").onclick = comprarCarta;
+  // document.getElementById("btnComprar3").onclick = comprarCarta;
+  // document.getElementById("btnHeader").addEventListener("click", atualizaInterface());
+
+}
+
+// =============== API =========================
+
+const baseUrl = 'https://pokeapi.co/api/v2/pokemon/';
+var pokemonApi;
+
+function requestPokeInfo(url, name) {
+  pokemonApi = {};
+  console.log(url + name)
+  fetch(url + name)
+    .then(response => response.json())
+    .then(data => {
+      pokemonApi = data;
+      var inventario = document.getElementById("inventario");
+      inventario.innerHTML += gerarInterfaceCard(pokemonApi, pokemon);
+    })
+    .catch(err => console.log(err));
 }
 
 
 
+// =============== INVENTARIO =========================
 function atualizaInterfaceInventario() {
 
-    retornarPokemonsComprados().then((result) => {
-        console.log(result)});
+  retornarPokemonsComprados().then((result) => {
+    console.log(result)
+    for (var i = 0; i < result.length; i++) {
+      var pokemon = {}
+      pokemon.idCarta = result[i].idCarta;
+      pokemon.idPokemon = result[i].idPokemon;
+      pokemon.ataque = result[i].ataque;
+      pokemon.defesa = result[i].defesa;
+      pokemon.preco = result[i].preco;
+      console.log(pokemon)
+      criarCardInventario(pokemon);
+    }
+
+  });
 
 
 };
+
+function criarCardInventario(pokemon) {
+  requestPokeInfo(baseUrl, pokemon.idPokemon)
+}
+
+function gerarInterfaceCard(pokemonApi, pokemon) {
+  console.log("Gerar card nome:" + pokemonApi.name)
+  console.log("Gerar card ataque:" + pokemon.ataque)
+  var card = `
+  <div class="col mb-5">
+    <div class="card h-100">
+        <img class="card-img-top" src="${pokemonApi.sprites.front_default}" alt="..." />
+        <div class="card-body p-4">
+            <div class="text-center">
+                <h5 class="fw-bolder">${pokemonApi.name}</h5>
+            </div>
+            <div class="text-center">
+                <h5 class="fw-bolder">Ataque: ${pokemon.ataque}</h5>
+            </div>
+            <div class="text-center">
+                <h5 class="fw-bolder">Defesa: ${pokemon.defesa}</h5>
+            </div>
+            <div class="text-center">
+                <h5 class="fw-bolder">Tipo: ${pokemonApi.types.map(item => item.type.name).toString()}</h5>
+            </div>
+        </div>
+        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+            <div class="input-group-append">
+                <span class="input-group-text">$</span>
+                <span class="input-group-text">0.00</span>
+            </div>
+            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Vender</a></div>
+        </div>
+    </div>
+</div>
+`
+
+  return card
+}
 
 function atualizaInterfaceMercado() {
 
-    mostrarPokemonsMercado().then((result) => {
-        console.log(result)});
+  mostrarPokemonsMercado().then((result) => {
+    console.log(result)
+  });
 
 
 };
 
 
-  /*verTotalDeRifas().then((result) => {
-    document.getElementById("total-geral").innerHTML = result;
-  });
+/*verTotalDeRifas().then((result) => {
+  document.getElementById("total-geral").innerHTML = result;
+});
 
-  verPremio().then((result) => {
-    document.getElementById("premio").innerHTML =
-      result / 1000000000000000000 + " ETH";
-  });
+verPremio().then((result) => {
+  document.getElementById("premio").innerHTML =
+    result / 1000000000000000000 + " ETH";
+});
 
-  verPreco().then((result) => {
-    document.getElementById("preco").innerHTML =
-      "Preço da Rifa: " + result / 1000000000000000000 + " ETH";
-  });
+verPreco().then((result) => {
+  document.getElementById("preco").innerHTML =
+    "Preço da Rifa: " + result / 1000000000000000000 + " ETH";
+});
 
-  verGanhador().then((result) => {
-    document.getElementById("ganhador").innerHTML = result;
-  });
+verGanhador().then((result) => {
+  document.getElementById("ganhador").innerHTML = result;
+});
 
-  document.getElementById("endereco").innerHTML = DApp.account;
+document.getElementById("endereco").innerHTML = DApp.account;
 
-  document.getElementById("btnSortear").style.display = "none";
-  ehDono().then((result) => {
-    if (result) {
-      document.getElementById("btnSortear").style.display = "block";
-    }
-  });
+document.getElementById("btnSortear").style.display = "none";
+ehDono().then((result) => {
+  if (result) {
+    document.getElementById("btnSortear").style.display = "block";
+  }
+});
 }*/
