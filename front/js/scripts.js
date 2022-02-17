@@ -10,7 +10,7 @@
 
 
 // ENDEREÇO EHTEREUM DO CONTRATO
-var contractAddress = "0x164362D5859CEFe37FccF0883a5Ccf03b50acE9F";
+var contractAddress = "0xd6eb89EB6253Aa1d22aCB52E88bfd9B0282c57b8";
 
 document.addEventListener('DOMContentLoaded', onDocumentLoad);
 function onDocumentLoad() {
@@ -118,8 +118,10 @@ function comprarCarta(numCartas) {
 }
 
 
-function comprarPokemonMercado(idCarta){
-  return DApp.contracts.Pokard.methods.comprarCarta(idCarta).send({ from: DApp.account, value: idCarta }).then();
+function comprarPokemonMercado(idCarta, preco){
+    console.log(preco)
+
+  return DApp.contracts.Pokard.methods.comprarPokemonMercado(idCarta).send({ from: DApp.account, value: preco}).then();
 }
 
 
@@ -218,7 +220,7 @@ function gerarCardMercado(pokemonApi, pokemon) {
           </div>
       </div>
       <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-          <div class="text-center" onclick="comprarPokemonMercado(${pokemon.idCarta})"><a class="btn btn-outline-dark mt-auto"
+          <div class="text-center" onclick="comprarPokemonMercado(${pokemon.idCarta}, ${pokemon.preco})"><a class="btn btn-outline-dark mt-auto"
                   href="#">Comprar</a></div>
       </div>
   </div>
